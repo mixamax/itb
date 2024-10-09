@@ -1,3 +1,28 @@
+:root {
+    --text-color: #2f2053de;
+}
+
 * {
-    color: #261a42de;
+    color: var(--text-color);
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: lightgray;
+        border-radius: 0 10px 10px 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #1976d2;
+        border-radius: 3px;
+    }
+}
+
+div {
+    & .MuiInputBase-root,
+    .MuiTableCell-root {
+        color: var(--text-color);
+    }
 }

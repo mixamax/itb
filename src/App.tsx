@@ -4,16 +4,19 @@ import { Pagelayout } from "./components/PageLayout/Pagelayout";
 import { userApi } from "./services/userApi";
 import { VirtualizedTable } from "./components/Table/Table";
 import { useFilter } from "./hooks/useFilter";
+import { getGroupsList } from "./utils/getGroupsList";
+import { filterData } from "./utils/filterData";
 
 function App() {
     const { data, isError, isLoading } = userApi.useGetUserQuery();
-
     const {
-        nameOrLoginFilterDebounced,
-        groupNameFilter,
+        nameOrLoginFilterDebouncedMemo: nameOrLoginFilterDebounced,
+        groupNameFilterMemo: groupNameFilter,
         changeNameOrLoginFilter,
         changeGroupNameFilter,
     } = useFilter();
+
+    const groupNameList = getGroupsList(data || []); // если список групп захардкодить, то можно уменьшить количество ререндеров FilterBlock
 
     return (
         <Pagelayout>
@@ -24,11 +27,14 @@ function App() {
                     <FilterBlock
                         changeGroupNameFilter={changeGroupNameFilter}
                         changeNameOrLoginFilter={changeNameOrLoginFilter}
+                        groupNameList={groupNameList}
                     />
                     <VirtualizedTable
-                        data={data}
-                        nameOrLoginFilter={nameOrLoginFilterDebounced}
-                        groupNameFilter={groupNameFilter}
+                        data={filterData(
+                            data,
+                            nameOrLoginFilterDebounced,
+                            groupNameFilter
+                        )}
                     />
                 </>
             )}

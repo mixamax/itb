@@ -9,39 +9,31 @@ import Paper from "@mui/material/Paper";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { TUser } from "../../models/user";
 import { CustomButton } from "../CustomButton/CustomButton";
-import { filterData } from "../../utils/filterData";
 
 interface ColumnData {
     dataKey: keyof TUser | "actions";
     label: string;
-    // numeric?: boolean;
     width?: number;
 }
 
 const columns: ColumnData[] = [
     {
-        // width: 100,
         label: "Name",
         dataKey: "name",
     },
     {
-        // width: 100,
         label: "Login",
         dataKey: "login",
     },
     {
-        // width: 100,
         label: "Group",
         dataKey: "group",
-        // numeric: true,
     },
     {
-        // width: 110,
         label: "Active",
         dataKey: "active",
     },
     {
-        // width: 130,
         label: "Actions",
         dataKey: "actions",
     },
@@ -78,7 +70,6 @@ function fixedHeaderContent() {
                 <TableCell
                     key={column.dataKey}
                     variant="head"
-                    // align={column.numeric || false ? "right" : "left"}
                     align="center"
                     style={{ width: column.width }}
                     sx={{
@@ -99,7 +90,6 @@ function rowContent(_index: number, row: TUser, user: TUser) {
             {columns.map((column) => (
                 <TableCell
                     key={column.dataKey}
-                    // align={column.numeric || false ? "right" : "left"}
                     align="center"
                     sx={{
                         padding: "16px 10px",
@@ -122,14 +112,8 @@ function rowContent(_index: number, row: TUser, user: TUser) {
 
 type TableProps = {
     data: TUser[];
-    nameOrLoginFilter: string;
-    groupNameFilter: string;
 };
-export function VirtualizedTable({
-    data,
-    nameOrLoginFilter,
-    groupNameFilter,
-}: TableProps) {
+export function VirtualizedTable({ data }: TableProps) {
     return (
         <Paper
             style={{
@@ -141,7 +125,7 @@ export function VirtualizedTable({
         >
             <TableVirtuoso
                 style={{ borderRadius: 10 }}
-                data={filterData(data, nameOrLoginFilter, groupNameFilter)}
+                data={data}
                 components={VirtuosoTableComponents}
                 fixedHeaderContent={fixedHeaderContent}
                 itemContent={(index, row) =>

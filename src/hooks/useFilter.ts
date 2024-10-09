@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 export function useFilter() {
@@ -7,19 +7,29 @@ export function useFilter() {
 
     const [nameOrLoginFilterDebounced] = useDebounce(nameOrLoginFilter, 500);
 
-    const changeNameOrLoginFilter = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setNameOrLoginFilter(event.target.value);
-    };
+    const changeNameOrLoginFilter = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setNameOrLoginFilter(event.target.value);
+        },
+        []
+    );
 
-    const changeGroupNameFilter = (groupName: string) => {
+    const changeGroupNameFilter = useCallback((groupName: string) => {
         setGroupNameFilter(groupName);
-    };
+    }, []);
+
+    const nameOrLoginFilterDebouncedMemo = useMemo(
+        () => nameOrLoginFilterDebounced,
+        [nameOrLoginFilterDebounced]
+    );
+    const groupNameFilterMemo = useMemo(
+        () => groupNameFilter,
+        [groupNameFilter]
+    );
 
     return {
-        nameOrLoginFilterDebounced,
-        groupNameFilter,
+        nameOrLoginFilterDebouncedMemo,
+        groupNameFilterMemo,
         changeNameOrLoginFilter,
         changeGroupNameFilter,
     };

@@ -25,11 +25,13 @@ type Props = {
     changeNameOrLoginFilter: (
         event: React.ChangeEvent<HTMLInputElement>
     ) => void;
+    groupNameList: string[];
 };
 
 export function FilterBlock({
     changeGroupNameFilter,
     changeNameOrLoginFilter,
+    groupNameList,
 }: Props) {
     const [groupName, setGroupName] = useState<string>("");
 
@@ -57,34 +59,13 @@ export function FilterBlock({
                         onChange={handleChangeGroupName}
                         input={<InputBase sx={inputBaseStyle} />}
                         notched={undefined}
-
-                        // renderValue={(selected) => {
-                        //     if (selected.length === 0) {
-                        //         return <em>Placeholder</em>;
-                        //     }
-                        // }}
-
-                        //     return selected.join(", ");
-                        // }}
-                        // MenuProps={MenuProps}
-                        // inputProps={{ "aria-label": "Without label" }}
                     >
-                        {/* <MenuItem disabled value="">
-                            <em>Все</em>
-                        </MenuItem> */}
                         <MenuItem value={""}>все группы</MenuItem>
-                        <MenuItem value={"10"}>Ten</MenuItem>
-                        <MenuItem value={"20"}>Twenty</MenuItem>
-                        <MenuItem value={"30"}>Thirty</MenuItem>
-                        {/* {names.map((name) => (
-                            <MenuItem
-                                key={name}
-                                value={name}
-                                style={getStyles(name, personName, theme)}
-                            >
-                                {name}
+                        {groupNameList.map((groupName) => (
+                            <MenuItem key={groupName} value={groupName}>
+                                {groupName}
                             </MenuItem>
-                        ))} */}
+                        ))}
                     </Select>
                 </FormControl>
             </Paper>
